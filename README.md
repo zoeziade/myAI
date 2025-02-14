@@ -1,5 +1,7 @@
-# Read Me (MyAI Project)
+# Read Me
+Create your own chatbot with myAI!
 
-## Overview
+This repo makes it easy to configure and deploy your own chatbot using Vercel and Pinecone. 
 
-You'll be taking this repository, cloning it, and then making it your own by modifying it however you please.
+For documentation, contact Daniel Ringel.
+
