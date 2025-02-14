@@ -6,7 +6,7 @@ type ErrorWrapperProps = {
 
 export function ErrorWrapper({ children }: ErrorWrapperProps) {
   const openAiKeySchema = z.string().min(51).startsWith("sk-");
-  const pineconeKeySchema = z.string().uuid();
+  const pineconeKeySchema = z.string();
 
   const openAiKeyResult = openAiKeySchema.safeParse(process.env.OPENAI_API_KEY);
   const pineconeKeyResult = pineconeKeySchema.safeParse(
