@@ -81,22 +81,28 @@ export async function searchForChunksUsingEmbedding(
   embedding: number[],
   pineconeIndex: any
 ): Promise<Chunk[]> {
-  const { matches } = await pineconeIndex.query({
-    vector: embedding,
-    topK: QUESTION_RESPONSE_TOP_K,
-    includeMetadata: true,
-  });
+  try {
+    const { matches } = await pineconeIndex.query({
+      vector: embedding,
+      topK: QUESTION_RESPONSE_TOP_K,
+      includeMetadata: true,
+    });
 
-  return matches.map((match: any) =>
-    chunkSchema.parse({
-      text: match.metadata?.text ?? "",
-      pre_context: match.metadata?.pre_context ?? "",
-      post_context: match.metadata?.post_context ?? "",
-      source_url: match.metadata?.source_url ?? "",
-      source_description: match.metadata?.source_description ?? "",
-      order: match.metadata?.order ?? 0,
-    })
-  );
+    return matches.map((match: any) =>
+      chunkSchema.parse({
+        text: match.metadata?.text ?? "",
+        pre_context: match.metadata?.pre_context ?? "",
+        post_context: match.metadata?.post_context ?? "",
+        source_url: match.metadata?.source_url ?? "",
+        source_description: match.metadata?.source_description ?? "",
+        order: match.metadata?.order ?? 0,
+      })
+    );
+  } catch (error) {
+    throw new Error(
+      "Error searching for chunks using embedding. Double check Pinecone indx name and API key."
+    );
+  }
 }
 
 export function aggregateSources(chunks: Chunk[]): Source[] {
