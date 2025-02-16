@@ -54,7 +54,7 @@ function AssistantMessage({ message }: { message: DisplayMessage }) {
       transition={{ duration: 0.3 }}
       className="flex flex-1 py-1 justify-start"
     >
-      <div className="w-9 flex items-end">{<AILogo />}</div>
+      <div className="w-9 flex items-end mr-1.25">{<AILogo />}</div>
       <motion.div
         whileHover={{ scale: 1.01 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
