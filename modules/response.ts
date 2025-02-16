@@ -30,6 +30,7 @@ import { stripMessagesOfCitations } from "@/utilities/chat";
 import {
   RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT,
   RESPOND_TO_QUESTION_BACKUP_SYSTEM_PROMPT,
+  RESPOND_TO_QUESTION_SYSTEM_PROMPT,
   RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT,
 } from "@/app/configuration/prompts";
 import {
@@ -179,7 +180,8 @@ export class ResponseModule {
           });
           const citations: Citation[] = await getCitationsFromChunks(chunks);
           const contextFromSources = await getContextFromSources(sources);
-          const systemPrompt = await buildPromptFromContext(contextFromSources);
+          const systemPrompt =
+            RESPOND_TO_QUESTION_SYSTEM_PROMPT(contextFromSources);
           queueIndicator({
             controller,
             status: "Coming up with an answer",
