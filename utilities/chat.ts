@@ -1,3 +1,4 @@
+import { QUESTION_RESPONSE_TOP_K } from "@/app/configuration/pinecone";
 import { RESPOND_TO_QUESTION_SYSTEM_PROMPT } from "@/app/configuration/prompts";
 import {
   Chat,
@@ -78,7 +79,7 @@ export async function searchForChunksUsingEmbedding(
 ): Promise<Chunk[]> {
   const { matches } = await pineconeIndex.query({
     vector: embedding,
-    topK: 7,
+    topK: QUESTION_RESPONSE_TOP_K,
     includeMetadata: true,
   });
 
