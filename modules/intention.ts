@@ -4,6 +4,9 @@ import { Chat, Intention, intentionSchema, IntentionType } from "@/types";
 import { HISTORY_CONTEXT_LENGTH } from "@/config";
 import { INTENTION_PROMPT } from "@/prompts";
 
+/**
+ * IntentionModule is responsible for detecting intentions
+ */
 export class IntentionModule {
   static async detectIntention({
     chat,
@@ -12,6 +15,9 @@ export class IntentionModule {
     chat: Chat;
     openai: OpenAI;
   }): Promise<Intention> {
+    /**
+     * Determine the intention of the user based on the most recent messages
+     */
     const mostRecentMessages = chat.messages
       .slice(-HISTORY_CONTEXT_LENGTH)
       .map((msg) => ({

@@ -24,11 +24,17 @@ import {
   RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT,
 } from "@/prompts";
 
+/**
+ * ResponseModule is responsible for collecting data and building a response
+ */
 export class ResponseModule {
   static async respondToRandomMessage(
     chat: Chat,
     providers: AIProviders
   ): Promise<Response> {
+    /**
+     * Respond to the user when they send a RANDOM message
+     */
     // Change provider/model name here
     const PROVIDER_NAME: ProviderName = "openai";
     const MODEL_NAME: string = "gpt-4o-mini";
@@ -72,6 +78,9 @@ export class ResponseModule {
     chat: Chat,
     providers: AIProviders
   ): Promise<Response> {
+    /**
+     * Respond to the user when they send a HOSTILE message
+     */
     // Change provider/model name here
     const PROVIDER_NAME: ProviderName = "openai";
     const MODEL_NAME: string = "gpt-4o-mini";
@@ -112,6 +121,9 @@ export class ResponseModule {
     providers: AIProviders,
     index: any
   ): Promise<Response> {
+    /**
+     * Respond to the user when they send a QUESTION
+     */
     // Change provider/model name here
     const PROVIDER_NAME: ProviderName = "openai";
     const MODEL_NAME: string = "gpt-4o";
