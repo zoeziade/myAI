@@ -33,7 +33,10 @@ import {
   HOSTILE_RESPONSE_MODEL,
   QUESTION_RESPONSE_PROVIDER,
   QUESTION_RESPONSE_MODEL,
-} from "@/app/configuration/models";
+  HOSTILE_RESPONSE_TEMPERATURE,
+  QUESTION_RESPONSE_TEMPERATURE,
+  RANDOM_RESPONSE_TEMPERATURE,
+} from "@/app/configuration/ai";
 
 /**
  * ResponseModule is responsible for collecting data and building a response
@@ -46,7 +49,6 @@ export class ResponseModule {
     /**
      * Respond to the user when they send a RANDOM message
      */
-    // Change provider/model name here
     const PROVIDER_NAME: ProviderName = RANDOM_RESPONSE_PROVIDER;
     const MODEL_NAME: string = RANDOM_RESPONSE_MODEL;
 
@@ -72,6 +74,7 @@ export class ResponseModule {
           systemPrompt,
           links,
           error_message: DEFAULT_RESPONSE_MESSAGE,
+          temperature: RANDOM_RESPONSE_TEMPERATURE,
         });
       },
     });
@@ -114,6 +117,7 @@ export class ResponseModule {
           systemPrompt,
           links,
           error_message: DEFAULT_RESPONSE_MESSAGE,
+          temperature: HOSTILE_RESPONSE_TEMPERATURE,
         });
       },
     });
@@ -186,6 +190,7 @@ export class ResponseModule {
           systemPrompt,
           links,
           error_message: DEFAULT_RESPONSE_MESSAGE,
+          temperature: QUESTION_RESPONSE_TEMPERATURE,
         });
       },
     });

@@ -19,6 +19,7 @@ export interface QueueAssistantResponseParams {
   systemPrompt: string;
   links: string[];
   error_message: string;
+  temperature: number;
 }
 
 export async function handleOpenAIStream({
@@ -29,6 +30,7 @@ export async function handleOpenAIStream({
   model_name,
   systemPrompt,
   links,
+  temperature,
 }: QueueAssistantResponseParams) {
   let client: OpenAI = providers.openai;
   if (providerName === "fireworks") {
@@ -38,6 +40,7 @@ export async function handleOpenAIStream({
     model: model_name,
     messages: [{ role: "system", content: systemPrompt }, ...messages],
     stream: true,
+    temperature,
   });
   if (!streamedResponse) {
     throw new Error("No stream response");
@@ -75,6 +78,7 @@ export async function handleAnthropicStream({
   model_name,
   systemPrompt,
   links,
+  temperature,
 }: QueueAssistantResponseParams) {
   let anthropicClient: Anthropic = providers.anthropic;
   let anthropicMessages: Anthropic.Messages.MessageParam[] = messages.map(
@@ -90,6 +94,7 @@ export async function handleAnthropicStream({
       model: model_name,
       system: systemPrompt,
       max_tokens: 4096,
+      temperature,
     })
     .on("text", (textDelta) => {
       responseBuffer += textDelta;
@@ -126,6 +131,7 @@ export async function queueAssistantResponse({
   systemPrompt,
   links,
   error_message,
+  temperature,
 }: QueueAssistantResponseParams) {
   if (providerName === "openai" || providerName === "fireworks") {
     console.log(providerName);
@@ -138,6 +144,7 @@ export async function queueAssistantResponse({
       systemPrompt,
       links,
       error_message,
+      temperature,
     });
   } else if (providerName === "anthropic") {
     await handleAnthropicStream({
@@ -149,6 +156,7 @@ export async function queueAssistantResponse({
       systemPrompt,
       links,
       error_message,
+      temperature,
     });
   }
 }
