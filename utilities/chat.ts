@@ -45,12 +45,16 @@ export async function embedHypotheticalData(
   value: string,
   openai: OpenAI
 ): Promise<{ embedding: number[] }> {
-  const embedding = await openai.embeddings.create({
-    model: "text-embedding-ada-002",
-    input: value,
-  });
+  try {
+    const embedding = await openai.embeddings.create({
+      model: "text-embedding-ada-002",
+      input: value,
+    });
 
-  return { embedding: embedding.data[0].embedding };
+    return { embedding: embedding.data[0].embedding };
+  } catch (error) {
+    throw new Error("Error embedding hypothetical data");
+  }
 }
 
 // Hypothetical Document Embedding (HyDe)
@@ -100,7 +104,7 @@ export async function searchForChunksUsingEmbedding(
     );
   } catch (error) {
     throw new Error(
-      "Error searching for chunks using embedding. Double check Pinecone indx name and API key."
+      "Error searching for chunks using embedding. Double check Pinecone index name and API key."
     );
   }
 }

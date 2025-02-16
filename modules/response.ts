@@ -102,7 +102,6 @@ export class ResponseModule {
     /**
      * Respond to the user when they send a HOSTILE message
      */
-    // Change provider/model name here
     const PROVIDER_NAME: ProviderName = HOSTILE_RESPONSE_PROVIDER;
     const MODEL_NAME: string = HOSTILE_RESPONSE_MODEL;
 
@@ -200,11 +199,10 @@ export class ResponseModule {
             error_message: DEFAULT_RESPONSE_MESSAGE,
             temperature: QUESTION_RESPONSE_TEMPERATURE,
           });
-        } catch (error) {
-          console.log("Catching the error!");
+        } catch (error: any) {
           queueError({
             controller,
-            error_message: DEFAULT_RESPONSE_MESSAGE,
+            error_message: error.message ?? DEFAULT_RESPONSE_MESSAGE,
           });
           queueAssistantResponse({
             controller,
