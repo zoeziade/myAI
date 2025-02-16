@@ -8,8 +8,8 @@ import { AI_NAME } from "@/app/configuration/identity";
 
 function AILogo() {
   return (
-    <div className="w-6 h-6">
-      <Image src="/ai-logo.svg" alt={AI_NAME} width={24} height={24} />
+    <div className="w-9 h-9">
+      <Image src="/ai-logo.svg" alt={AI_NAME} width={36} height={36} />
     </div>
   );
 }
