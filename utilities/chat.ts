@@ -1,9 +1,9 @@
-import { HYDE_MODEL, HYDE_TEMPERATURE } from "@/app/configuration/models";
-import { QUESTION_RESPONSE_TOP_K } from "@/app/configuration/pinecone";
+import { HYDE_MODEL, HYDE_TEMPERATURE } from "@/configuration/models";
+import { QUESTION_RESPONSE_TOP_K } from "@/configuration/pinecone";
 import {
   HYDE_PROMPT,
   RESPOND_TO_QUESTION_SYSTEM_PROMPT,
-} from "@/app/configuration/prompts";
+} from "@/configuration/prompts";
 import {
   Chat,
   Chunk,

@@ -25,14 +25,14 @@ import {
 import {
   HISTORY_CONTEXT_LENGTH,
   DEFAULT_RESPONSE_MESSAGE,
-} from "@/app/configuration/chat";
+} from "@/configuration/chat";
 import { stripMessagesOfCitations } from "@/utilities/chat";
 import {
   RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT,
   RESPOND_TO_QUESTION_BACKUP_SYSTEM_PROMPT,
   RESPOND_TO_QUESTION_SYSTEM_PROMPT,
   RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT,
-} from "@/app/configuration/prompts";
+} from "@/configuration/prompts";
 import {
   RANDOM_RESPONSE_PROVIDER,
   RANDOM_RESPONSE_MODEL,
@@ -43,7 +43,7 @@ import {
   HOSTILE_RESPONSE_TEMPERATURE,
   QUESTION_RESPONSE_TEMPERATURE,
   RANDOM_RESPONSE_TEMPERATURE,
-} from "@/app/configuration/models";
+} from "@/configuration/models";
 
 /**
  * ResponseModule is responsible for collecting data and building a response

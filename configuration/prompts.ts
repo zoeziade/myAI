@@ -3,7 +3,7 @@ import {
   OWNER_NAME,
   OWNER_DESCRIPTION,
   AI_ROLE,
-} from "@/app/configuration/identity";
+} from "@/configuration/identity";
 import { Chat, intentionTypeSchema } from "../../types";
 
 const IDENTITY_STATEMENT = `You are an AI assistant named ${AI_NAME}.`;

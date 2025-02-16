@@ -1,4 +1,4 @@
-import { FOOTER_MESSAGE } from "@/app/configuration/ui";
+import { FOOTER_MESSAGE } from "@/configuration/ui";
 
 export default function ChatFooter() {
   return (

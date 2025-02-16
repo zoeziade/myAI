@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import Link from "next/link";
-import { EMPTY_CITATION_MESSAGE } from "@/app/configuration/ui";
+import { EMPTY_CITATION_MESSAGE } from "@/configuration/ui";
 
 export function CitationCircle({
   number,
