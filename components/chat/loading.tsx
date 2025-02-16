@@ -1,6 +1,6 @@
 import { LoadingIndicator, IndicatorIconType } from "@/types";
 import { motion } from "framer-motion";
-import { Brain, FileStack, FileSearch, Scan } from "lucide-react";
+import { Brain, FileStack, FileSearch, Scan, AlertCircle } from "lucide-react";
 
 export function Pill({
   status,
@@ -21,6 +21,7 @@ export function Pill({
       {icon === "searching" && <FileSearch className="w-4 h-4 animate-pulse" />}
       {icon === "understanding" && <Scan className="w-4 h-4 animate-pulse" />}
       {icon === "documents" && <FileStack className="w-4 h-4 animate-pulse" />}
+      {icon === "error" && <AlertCircle className="w-4 h-4 animate-pulse" />}
       <p>{status}</p>
     </div>
   );
