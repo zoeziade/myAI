@@ -14,19 +14,6 @@ function AILogo() {
   );
 }
 
-export function Citation({ number, link }: { number: number; link: string }) {
-  return (
-    <a
-      href={link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="bg-gray-50 rounded-full px-2 py-0.5 hover:cursor-pointer hover:underline inline-block"
-    >
-      <span>{number}</span>
-    </a>
-  );
-}
-
 function UserMessage({ message }: { message: DisplayMessage }) {
   return (
     <motion.div
@@ -52,9 +39,9 @@ function AssistantMessage({ message }: { message: DisplayMessage }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-1 py-1 justify-start"
+      className="flex flex-1 py-1 justify-start gap-[5px]"
     >
-      <div className="w-9 flex items-end" style={{ marginRight: "5px" }}>{<AILogo />}</div>
+      <div className="w-9 flex items-end">{<AILogo />}</div>
       <motion.div
         whileHover={{ scale: 1.01 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -93,7 +80,7 @@ export default function ChatMessages({
       transition={{ duration: 0.5 }}
       className="flex flex-col flex-1 p-1 gap-3"
     >
-      <div className="h-[50px]"></div>
+      <div className="h-[60px]"></div>
       {messages.length === 0 ? (
         <EmptyMessages />
       ) : (

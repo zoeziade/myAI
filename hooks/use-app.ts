@@ -12,13 +12,14 @@ import {
   streamedLoadingSchema,
   StreamedMessage,
   streamedMessageSchema,
+  Citation,
 } from "@/types";
 
 export default function useApp() {
   const initialAssistantMessage: DisplayMessage = {
     role: "assistant",
     content: INITIAL_MESSAGE,
-    links: [],
+    citations: [],
   };
 
   const [messages, setMessages] = useState<DisplayMessage[]>([
@@ -42,17 +43,17 @@ export default function useApp() {
     const newUserMessage: DisplayMessage = {
       role: "user",
       content: input,
-      links: [],
+      citations: [],
     };
     setMessages((prevMessages) => [...prevMessages, newUserMessage]);
     return newUserMessage;
   };
 
-  const addAssistantMessage = (content: string, links: string[]) => {
+  const addAssistantMessage = (content: string, citations: Citation[]) => {
     const newAssistantMessage: DisplayMessage = {
       role: "assistant",
       content,
-      links,
+      citations,
     };
     setMessages((prevMessages) => [...prevMessages, newAssistantMessage]);
     return newAssistantMessage;
@@ -85,14 +86,14 @@ export default function useApp() {
         updatedMessages[updatedMessages.length - 1] = {
           ...lastMessage,
           content: streamedMessage.message.content,
-          links: streamedMessage.message.links,
+          citations: streamedMessage.message.citations,
         };
       } else {
         // Add a new assistant message
         updatedMessages.push({
           role: "assistant",
           content: streamedMessage.message.content,
-          links: streamedMessage.message.links,
+          citations: streamedMessage.message.citations,
         });
       }
 

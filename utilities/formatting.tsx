@@ -1,4 +1,5 @@
-import { Citation } from "@/components/chat/messages";
+import { CitationCircle } from "@/components/chat/citation";
+import { Citation } from "@/types";
 import React from "react";
 
 // Regex to check if the processed content contains any potential LaTeX patterns
@@ -125,7 +126,7 @@ export function escapeMhchem(text: string) {
 
 export function renderCitations(
   children: React.ReactNode | string,
-  links: string[]
+  citations: Citation[]
 ): React.ReactNode {
   const matchRegex = /(\[\d+\])/g;
 
@@ -137,7 +138,11 @@ export function renderCitations(
       if (match) {
         const number = parseInt(part.replace(/[\[\]]/g, ""), 10);
         return (
-          <Citation key={index} number={number} link={links[number - 1]} />
+          <CitationCircle
+            key={index}
+            number={number}
+            citation={citations[number - 1]}
+          />
         );
       }
       return part;

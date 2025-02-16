@@ -1,7 +1,6 @@
 import { DisplayMessage } from "@/types";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Citation } from "./messages";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
@@ -28,7 +27,7 @@ export function Formatting({ message }: { message: DisplayMessage }) {
       );
     },
     p: ({ children }: { children: React.ReactNode }) => {
-      return renderCitations(children, message.links);
+      return renderCitations(children, message.citations);
     },
   };
   return (

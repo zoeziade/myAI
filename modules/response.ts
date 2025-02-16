@@ -5,6 +5,7 @@ import {
   CoreMessage,
   AIProviders,
   ProviderName,
+  Citation,
 } from "@/types";
 import {
   convertToCoreMessages,
@@ -13,10 +14,14 @@ import {
   getSourcesFromChunks,
   searchForChunksUsingEmbedding,
   getContextFromSources,
-  getLinksFromChunks,
+  getCitationsFromChunks,
   buildPromptFromContext,
 } from "@/utilities/chat";
-import { queueAssistantResponse, queueIndicator } from "@/actions/streaming";
+import {
+  queueAssistantResponse,
+  queueError,
+  queueIndicator,
+} from "@/actions/streaming";
 import {
   HISTORY_CONTEXT_LENGTH,
   DEFAULT_RESPONSE_MESSAGE,
@@ -24,6 +29,7 @@ import {
 import { stripMessagesOfCitations } from "@/utilities/chat";
 import {
   RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT,
+  RESPOND_TO_QUESTION_BACKUP_SYSTEM_PROMPT,
   RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT,
 } from "@/app/configuration/prompts";
 import {
@@ -36,7 +42,7 @@ import {
   HOSTILE_RESPONSE_TEMPERATURE,
   QUESTION_RESPONSE_TEMPERATURE,
   RANDOM_RESPONSE_TEMPERATURE,
-} from "@/app/configuration/ai";
+} from "@/app/configuration/models";
 
 /**
  * ResponseModule is responsible for collecting data and building a response
@@ -64,7 +70,7 @@ export class ResponseModule {
           stripMessagesOfCitations(chat.messages.slice(-HISTORY_CONTEXT_LENGTH))
         );
 
-        const links: string[] = [];
+        const citations: Citation[] = [];
         queueAssistantResponse({
           controller,
           providers,
@@ -72,7 +78,7 @@ export class ResponseModule {
           messages: mostRecentMessages,
           model_name: MODEL_NAME,
           systemPrompt,
-          links,
+          citations,
           error_message: DEFAULT_RESPONSE_MESSAGE,
           temperature: RANDOM_RESPONSE_TEMPERATURE,
         });
@@ -107,7 +113,7 @@ export class ResponseModule {
           icon: "thinking",
         });
         const systemPrompt = RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT();
-        const links: string[] = [];
+        const citations: Citation[] = [];
         queueAssistantResponse({
           controller,
           providers,
@@ -115,7 +121,7 @@ export class ResponseModule {
           messages: [],
           model_name: MODEL_NAME,
           systemPrompt,
-          links,
+          citations,
           error_message: DEFAULT_RESPONSE_MESSAGE,
           temperature: HOSTILE_RESPONSE_TEMPERATURE,
         });
@@ -139,7 +145,6 @@ export class ResponseModule {
     /**
      * Respond to the user when they send a QUESTION
      */
-    // Change provider/model name here
     const PROVIDER_NAME: ProviderName = QUESTION_RESPONSE_PROVIDER;
     const MODEL_NAME: string = QUESTION_RESPONSE_MODEL;
 
@@ -150,48 +155,66 @@ export class ResponseModule {
           status: "Figuring out what your answer looks like",
           icon: "thinking",
         });
-        const hypotheticalData: string = await generateHypotheticalData(
-          chat,
-          providers.openai
-        );
-        const { embedding }: { embedding: number[] } =
-          await embedHypotheticalData(hypotheticalData, providers.openai);
-        queueIndicator({
-          controller,
-          status: "Reading through documents",
-          icon: "searching",
-        });
-        const chunks: Chunk[] = await searchForChunksUsingEmbedding(
-          embedding,
-          index
-        );
-        const sources: Source[] = await getSourcesFromChunks(chunks);
-        queueIndicator({
-          controller,
-          status: `Read over ${sources.length} documents`,
-          icon: "documents",
-        });
-        const links: string[] = await getLinksFromChunks(chunks);
-        const contextFromSources = await getContextFromSources(sources);
-        const systemPrompt = await buildPromptFromContext(contextFromSources);
-        queueIndicator({
-          controller,
-          status: "Coming up with an answer",
-          icon: "thinking",
-        });
-        queueAssistantResponse({
-          controller,
-          providers,
-          providerName: PROVIDER_NAME,
-          messages: stripMessagesOfCitations(
-            chat.messages.slice(-HISTORY_CONTEXT_LENGTH)
-          ),
-          model_name: MODEL_NAME,
-          systemPrompt,
-          links,
-          error_message: DEFAULT_RESPONSE_MESSAGE,
-          temperature: QUESTION_RESPONSE_TEMPERATURE,
-        });
+        try {
+          const hypotheticalData: string = await generateHypotheticalData(
+            chat,
+            providers.openai
+          );
+          const { embedding }: { embedding: number[] } =
+            await embedHypotheticalData(hypotheticalData, providers.openai);
+          queueIndicator({
+            controller,
+            status: "Reading through documents",
+            icon: "searching",
+          });
+          const chunks: Chunk[] = await searchForChunksUsingEmbedding(
+            embedding,
+            index
+          );
+          const sources: Source[] = await getSourcesFromChunks(chunks);
+          queueIndicator({
+            controller,
+            status: `Read over ${sources.length} documents`,
+            icon: "documents",
+          });
+          const citations: Citation[] = await getCitationsFromChunks(chunks);
+          const contextFromSources = await getContextFromSources(sources);
+          const systemPrompt = await buildPromptFromContext(contextFromSources);
+          queueIndicator({
+            controller,
+            status: "Coming up with an answer",
+            icon: "thinking",
+          });
+          queueAssistantResponse({
+            controller,
+            providers,
+            providerName: PROVIDER_NAME,
+            messages: stripMessagesOfCitations(
+              chat.messages.slice(-HISTORY_CONTEXT_LENGTH)
+            ),
+            model_name: MODEL_NAME,
+            systemPrompt,
+            citations,
+            error_message: DEFAULT_RESPONSE_MESSAGE,
+            temperature: QUESTION_RESPONSE_TEMPERATURE,
+          });
+        } catch (error) {
+          queueError({
+            controller,
+            error_message: DEFAULT_RESPONSE_MESSAGE,
+          });
+          queueAssistantResponse({
+            controller,
+            providers,
+            providerName: PROVIDER_NAME,
+            messages: [],
+            model_name: MODEL_NAME,
+            systemPrompt: RESPOND_TO_QUESTION_BACKUP_SYSTEM_PROMPT(),
+            citations: [],
+            error_message: DEFAULT_RESPONSE_MESSAGE,
+            temperature: QUESTION_RESPONSE_TEMPERATURE,
+          });
+        }
       },
     });
 

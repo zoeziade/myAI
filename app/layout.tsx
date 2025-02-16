@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { PAGE_TITLE, PAGE_DESCRIPTION } from "@/app/configuration/ui";
 import "./globals.css";
 import { ErrorWrapper } from "./parts/error/error-wrapper";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,11 +29,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ErrorWrapper>{children}</ErrorWrapper>
-      </body>
+      <TooltipProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <ErrorWrapper>{children}</ErrorWrapper>
+        </body>
+      </TooltipProvider>
     </html>
   );
 }

@@ -3,6 +3,7 @@ import { zodResponseFormat } from "openai/helpers/zod";
 import { Chat, Intention, intentionSchema, IntentionType } from "@/types";
 import { HISTORY_CONTEXT_LENGTH } from "@/app/configuration/chat";
 import { INTENTION_PROMPT } from "@/app/configuration/prompts";
+import { INTENTION_MODEL } from "@/app/configuration/models";
 
 /**
  * IntentionModule is responsible for detecting intentions
@@ -26,7 +27,7 @@ export class IntentionModule {
       }));
 
     const response = await openai.beta.chat.completions.parse({
-      model: "gpt-4o-mini",
+      model: INTENTION_MODEL,
       messages: [
         { role: "system", content: INTENTION_PROMPT() },
         ...mostRecentMessages,

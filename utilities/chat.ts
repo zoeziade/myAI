@@ -1,16 +1,20 @@
+import { HYDE_MODEL, HYDE_TEMPERATURE } from "@/app/configuration/models";
 import { QUESTION_RESPONSE_TOP_K } from "@/app/configuration/pinecone";
-import { RESPOND_TO_QUESTION_SYSTEM_PROMPT } from "@/app/configuration/prompts";
+import {
+  HYDE_PROMPT,
+  RESPOND_TO_QUESTION_SYSTEM_PROMPT,
+} from "@/app/configuration/prompts";
 import {
   Chat,
   Chunk,
   chunkSchema,
+  Citation,
+  citationSchema,
   CoreMessage,
   DisplayMessage,
   Source,
 } from "@/types";
 import OpenAI from "openai";
-import { zodResponseFormat } from "openai/helpers/zod.mjs";
-import { z } from "zod";
 
 export function stripMessagesOfCitations(
   messages: DisplayMessage[]
@@ -54,23 +58,23 @@ export async function generateHypotheticalData(
   chat: Chat,
   openai: OpenAI
 ): Promise<string> {
-  const { messages } = chat;
-  const mostRecentMessages = messages.slice(-3);
+  try {
+    const response = await openai.chat.completions.create({
+      model: HYDE_MODEL,
+      temperature: HYDE_TEMPERATURE,
+      messages: await convertToCoreMessages([
+        {
+          role: "system",
+          content: HYDE_PROMPT(chat),
+          citations: [],
+        },
+      ]),
+    });
 
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: await convertToCoreMessages([
-      {
-        role: "system",
-        content:
-          "You are an AI assistant responsible for generating hypothetical textx excerpts from Dr. Daniel Ringel. You're given the conversation history. Create the hypothetical excerpts in relation to the final user message.",
-        links: [],
-      },
-      ...mostRecentMessages,
-    ]),
-  });
-
-  return response.choices[0].message.content ?? "";
+    return response.choices[0].message.content ?? "";
+  } catch (error) {
+    throw new Error("Error generating hypothetical data");
+  }
 }
 
 export async function searchForChunksUsingEmbedding(
@@ -149,12 +153,12 @@ export function getContextFromSource(
   citationNumber: number
 ): string {
   return `
-    <excerpt-from-dr-daniel-ringel-source>
+    <excerpt>
     Source Description: ${source.source_description}
     Source Citation: [${citationNumber}]
     Excerpt from Source [${citationNumber}]:
     ${buildContextFromOrderedChunks(source.chunks, citationNumber)}
-    </excerpt-from-dr-daniel-ringel-source>
+    </excerpt>
   `;
 }
 
@@ -169,6 +173,11 @@ export function buildPromptFromContext(context: string): string {
   return RESPOND_TO_QUESTION_SYSTEM_PROMPT(context);
 }
 
-export function getLinksFromChunks(chunks: Chunk[]): string[] {
-  return chunks.map((chunk) => chunk.source_url);
+export function getCitationsFromChunks(chunks: Chunk[]): Citation[] {
+  return chunks.map((chunk) =>
+    citationSchema.parse({
+      source_url: chunk.source_url,
+      source_description: chunk.source_description,
+    })
+  );
 }

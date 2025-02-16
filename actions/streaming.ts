@@ -7,6 +7,8 @@ import {
   StreamedDone,
   AIProviders,
   ProviderName,
+  Citation,
+  StreamedError,
 } from "@/types";
 import Anthropic from "@anthropic-ai/sdk";
 
@@ -17,7 +19,7 @@ export interface QueueAssistantResponseParams {
   messages: CoreMessage[];
   model_name: string;
   systemPrompt: string;
-  links: string[];
+  citations: Citation[];
   error_message: string;
   temperature: number;
 }
@@ -29,7 +31,7 @@ export async function handleOpenAIStream({
   messages,
   model_name,
   systemPrompt,
-  links,
+  citations,
   temperature,
 }: QueueAssistantResponseParams) {
   let client: OpenAI = providers.openai;
@@ -54,7 +56,7 @@ export async function handleOpenAIStream({
       message: {
         role: "assistant",
         content: responseBuffer,
-        links: links,
+        citations,
       },
     };
     controller.enqueue(
@@ -77,7 +79,7 @@ export async function handleAnthropicStream({
   messages,
   model_name,
   systemPrompt,
-  links,
+  citations,
   temperature,
 }: QueueAssistantResponseParams) {
   let anthropicClient: Anthropic = providers.anthropic;
@@ -103,7 +105,7 @@ export async function handleAnthropicStream({
         message: {
           role: "assistant",
           content: responseBuffer,
-          links: links,
+          citations,
         },
       };
       controller.enqueue(
@@ -129,7 +131,7 @@ export async function queueAssistantResponse({
   messages,
   model_name,
   systemPrompt,
-  links,
+  citations,
   error_message,
   temperature,
 }: QueueAssistantResponseParams) {
@@ -142,7 +144,7 @@ export async function queueAssistantResponse({
       messages,
       model_name,
       systemPrompt,
-      links,
+      citations,
       error_message,
       temperature,
     });
@@ -154,7 +156,7 @@ export async function queueAssistantResponse({
       messages,
       model_name,
       systemPrompt,
-      links,
+      citations,
       error_message,
       temperature,
     });
@@ -182,4 +184,26 @@ export async function queueIndicator({
   controller.enqueue(
     new TextEncoder().encode(JSON.stringify(loadingPayload) + "\n")
   );
+}
+
+export interface QueueErrorParams {
+  controller: ReadableStreamDefaultController;
+  error_message: string;
+}
+
+export async function queueError({
+  controller,
+  error_message,
+}: QueueErrorParams) {
+  const errorPayload: StreamedError = {
+    type: "error",
+    indicator: {
+      status: error_message,
+      icon: "error",
+    },
+  };
+  controller.enqueue(
+    new TextEncoder().encode(JSON.stringify(errorPayload) + "\n")
+  );
+  controller.close();
 }
