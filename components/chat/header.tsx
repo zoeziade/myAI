@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { EraserIcon } from "lucide-react";
 import Image from "next/image";
-import { CHAT_HEADER, CLEAR_BUTTON_TEXT, AI_NAME } from "@/config";
+import { CHAT_HEADER, CLEAR_BUTTON_TEXT } from "@/app/configuration/ui";
+import { AI_NAME } from "@/app/configuration/identity";
 
 export const AILogo = () => (
   <div className="w-6 h-6 relative">

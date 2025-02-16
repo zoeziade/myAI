@@ -1,5 +1,10 @@
-import { AI_NAME, OWNER_NAME, OWNER_DESCRIPTION, AI_ROLE } from "@/config";
-import { intentionTypeSchema } from "./types";
+import {
+  AI_NAME,
+  OWNER_NAME,
+  OWNER_DESCRIPTION,
+  AI_ROLE,
+} from "@/app/configuration/identity";
+import { intentionTypeSchema } from "../../types";
 
 const IDENTITY_STATEMENT = `You are an AI assistant named ${AI_NAME}.`;
 const OWNER_STATEMENT = `You are owned and created by ${OWNER_NAME}.`;
@@ -15,7 +20,7 @@ Respond with only the intention type.
 
 export function RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT() {
   return `
-${IDENTITY_STATEMENT} ${OWNER_STATEMENT} ${OWNER_DESCRIPTION} ${AI_ROLE}
+${IDENTITY_STATEMENT} ${OWNER_STATEMENT} $r{OWNER_DESCRIPTION} ${AI_ROLE}
   `;
 }
 

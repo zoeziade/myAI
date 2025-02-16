@@ -17,12 +17,23 @@ import {
   buildPromptFromContext,
 } from "@/utilities/chat";
 import { queueAssistantResponse, queueIndicator } from "@/actions/streaming";
-import { HISTORY_CONTEXT_LENGTH, DEFAULT_RESPONSE_MESSAGE } from "@/config";
+import {
+  HISTORY_CONTEXT_LENGTH,
+  DEFAULT_RESPONSE_MESSAGE,
+} from "@/app/configuration/chat";
 import { stripMessagesOfCitations } from "@/utilities/chat";
 import {
   RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT,
   RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT,
-} from "@/prompts";
+} from "@/app/configuration/prompts";
+import {
+  RANDOM_RESPONSE_PROVIDER,
+  RANDOM_RESPONSE_MODEL,
+  HOSTILE_RESPONSE_PROVIDER,
+  HOSTILE_RESPONSE_MODEL,
+  QUESTION_RESPONSE_PROVIDER,
+  QUESTION_RESPONSE_MODEL,
+} from "@/app/configuration/models";
 
 /**
  * ResponseModule is responsible for collecting data and building a response
@@ -36,8 +47,8 @@ export class ResponseModule {
      * Respond to the user when they send a RANDOM message
      */
     // Change provider/model name here
-    const PROVIDER_NAME: ProviderName = "openai";
-    const MODEL_NAME: string = "gpt-4o-mini";
+    const PROVIDER_NAME: ProviderName = RANDOM_RESPONSE_PROVIDER;
+    const MODEL_NAME: string = RANDOM_RESPONSE_MODEL;
 
     const stream = new ReadableStream({
       async start(controller) {
@@ -82,8 +93,8 @@ export class ResponseModule {
      * Respond to the user when they send a HOSTILE message
      */
     // Change provider/model name here
-    const PROVIDER_NAME: ProviderName = "openai";
-    const MODEL_NAME: string = "gpt-4o-mini";
+    const PROVIDER_NAME: ProviderName = HOSTILE_RESPONSE_PROVIDER;
+    const MODEL_NAME: string = HOSTILE_RESPONSE_MODEL;
 
     const stream = new ReadableStream({
       async start(controller) {
@@ -125,8 +136,8 @@ export class ResponseModule {
      * Respond to the user when they send a QUESTION
      */
     // Change provider/model name here
-    const PROVIDER_NAME: ProviderName = "openai";
-    const MODEL_NAME: string = "gpt-4o";
+    const PROVIDER_NAME: ProviderName = QUESTION_RESPONSE_PROVIDER;
+    const MODEL_NAME: string = QUESTION_RESPONSE_MODEL;
 
     const stream = new ReadableStream({
       async start(controller) {

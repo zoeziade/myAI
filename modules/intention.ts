@@ -1,8 +1,8 @@
 import { OpenAI } from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { Chat, Intention, intentionSchema, IntentionType } from "@/types";
-import { HISTORY_CONTEXT_LENGTH } from "@/config";
-import { INTENTION_PROMPT } from "@/prompts";
+import { HISTORY_CONTEXT_LENGTH } from "@/app/configuration/chat";
+import { INTENTION_PROMPT } from "@/app/configuration/prompts";
 
 /**
  * IntentionModule is responsible for detecting intentions

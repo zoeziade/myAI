@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { WORD_CUTOFF, WORD_BREAK_MESSAGE, INITIAL_MESSAGE } from "@/config";
+import { INITIAL_MESSAGE } from "@/app/configuration/chat";
+import { WORD_CUTOFF, WORD_BREAK_MESSAGE } from "@/app/configuration/chat";
 import {
   LoadingIndicator,
   DisplayMessage,

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { PAGE_TITLE, PAGE_DESCRIPTION } from "@/config";
+import { PAGE_TITLE, PAGE_DESCRIPTION } from "@/app/configuration/ui";
 import "./globals.css";
 import { ErrorWrapper } from "./parts/error/error-wrapper";
 

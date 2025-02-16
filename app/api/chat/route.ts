@@ -3,7 +3,7 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import { AIProviders, Chat, Intention } from "@/types";
 import { IntentionModule } from "@/modules/intention";
 import { ResponseModule } from "@/modules/response";
-import { PINECONE_INDEX_NAME } from "@/config";
+import { PINECONE_INDEX_NAME } from "@/app/configuration/pinecone";
 import Anthropic from "@anthropic-ai/sdk";
 
 // Get API keys

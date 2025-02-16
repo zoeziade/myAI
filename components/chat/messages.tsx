@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Formatting } from "./formatting";
 import { LoadingIndicator } from "@/types";
 import Loading from "./loading";
-import { AI_NAME } from "@/config";
+import { AI_NAME } from "@/app/configuration/identity";
 
 function AILogo() {
   return (

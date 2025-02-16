@@ -1,4 +1,4 @@
-import { RESPOND_TO_QUESTION_SYSTEM_PROMPT } from "@/prompts";
+import { RESPOND_TO_QUESTION_SYSTEM_PROMPT } from "@/app/configuration/prompts";
 import {
   Chat,
   Chunk,
