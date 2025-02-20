@@ -38,6 +38,12 @@ export async function handleOpenAIStream({
   if (providerName === "fireworks") {
     client = providers.fireworks;
   }
+  console.log("Streaming OpenAI response...", {
+    temperature,
+    model_name,
+    systemPrompt,
+    messages,
+  });
   const streamedResponse = await client.chat.completions.create({
     model: model_name,
     messages: [{ role: "system", content: systemPrompt }, ...messages],
