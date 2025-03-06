@@ -9,6 +9,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 export function Formatting({ message }: { message: DisplayMessage }) {
   const processedContent = preprocessLaTeX(message.content);
+
   const components = {
     code: ({ children, className, node, ...rest }: any) => {
       const match = /language-(\w+)/.exec(className || "");
@@ -47,6 +48,19 @@ export function Formatting({ message }: { message: DisplayMessage }) {
         </li>
       );
     },
+    // Handling the links (anchor tags) explicitly
+    a: ({ href, children }: { href: string; children: React.ReactNode }) => {
+      return (
+        <a
+          href={href}
+          target="_blank" // Opens the link in a new tab
+          rel="noopener noreferrer" // Adds security for external links
+          className="text-blue-500 hover:underline"
+        >
+          {children}
+        </a>
+      );
+    },
   };
 
   return (
@@ -60,4 +74,5 @@ export function Formatting({ message }: { message: DisplayMessage }) {
     </ReactMarkdown>
   );
 }
+
 
