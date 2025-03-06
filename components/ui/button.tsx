@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
