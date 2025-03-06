@@ -27,7 +27,11 @@ export function Formatting({ message }: { message: DisplayMessage }) {
       );
     },
     p: ({ children }: { children: React.ReactNode }) => {
-      return renderCitations(children, message.citations);
+      return (
+        <p className="text-left leading-6">
+          {renderCitations(children, message.citations)}
+        </p>
+      );
     },
     strong: ({ children }: { children: React.ReactNode }) => {
       return (
@@ -37,9 +41,14 @@ export function Formatting({ message }: { message: DisplayMessage }) {
       );
     },
     li: ({ children }: { children: React.ReactNode }) => {
-      return renderCitations(children, message.citations);
+      return (
+        <li className="text-left">
+          {renderCitations(children, message.citations)}
+        </li>
+      );
     },
   };
+
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm, remarkMath]}
@@ -51,3 +60,4 @@ export function Formatting({ message }: { message: DisplayMessage }) {
     </ReactMarkdown>
   );
 }
+
