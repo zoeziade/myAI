@@ -9,7 +9,6 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 export function Formatting({ message }: { message: DisplayMessage }) {
   const processedContent = preprocessLaTeX(message.content);
-  
   const components = {
     code: ({ children, className, node, ...rest }: any) => {
       const match = /language-(\w+)/.exec(className || "");
@@ -32,7 +31,7 @@ export function Formatting({ message }: { message: DisplayMessage }) {
     },
     strong: ({ children }: { children: React.ReactNode }) => {
       return (
-        <span className="font-bold text-black">
+        <span className="font-bold">
           {renderCitations(children, message.citations)}
         </span>
       );
@@ -40,16 +39,6 @@ export function Formatting({ message }: { message: DisplayMessage }) {
     li: ({ children }: { children: React.ReactNode }) => {
       return renderCitations(children, message.citations);
     },
-  };
-
-  return (
-    <div className="whitespace-pre-wrap break-words">
-      <ReactMarkdown components={components}>
-        {processedContent}
-      </ReactMarkdown>
-    </div>
-  );
-}
   };
   return (
     <ReactMarkdown
