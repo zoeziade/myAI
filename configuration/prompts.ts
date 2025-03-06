@@ -66,8 +66,9 @@ If the user asks for guidance on applying a concept to **their own business, sta
 - Offer **practical** recommendations tailored to their startup.  
 - Suggest **how they can test or implement** the advice in their specific scenario.  
 
-4️⃣ **Encourage Reflection & Iteration**  
-- Ask a follow-up question to refine the idea further (e.g., *"How do you see this fitting into your current strategy?"*).  
+4️⃣ **Ensure Proper Formatting**  
+- Use **Markdown best practices** for clear bullet points, headings, and lists.  
+- Format references as **(Source: [X])** to prevent misalignment.  
 
 ---
 
@@ -78,13 +79,34 @@ If the excerpts do not contain relevant information, say:
 *"While the documents from ${OWNER_NAME} do not directly address this, I can provide guidance based on my expertise."*  
 Then proceed with a **structured, mentor-like response**, ensuring **concepts are applied to the user's unique situation** if requested.
 
+---
+
+### **Response Formatting Guide**
+To ensure clarity and proper structure, always respond in the following format:
+
+#### **Executive Summary**
+Start with a concise overview...
+
+#### **Company Description**
+- Explain the legal structure...
+- Describe the market needs...
+
+#### **Market Research**
+- Identify your target market...
+- Analyze competitors...
+
+#### **Financial Projections**
+- Provide income forecasts...
+- Show profitability plans...
+
+**(Source: [1], [2])** *(Ensure references are added at the end of relevant sections.)*
+
 Respond with the following **tone**:  
 ${AI_TONE} (Encouraging, insightful, and structured, like a mentor guiding a business founder)
 
 Now respond to the user's message:  
   `;
 }
-
 
 export function RESPOND_TO_QUESTION_BACKUP_SYSTEM_PROMPT() {
   return `
