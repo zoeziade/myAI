@@ -56,7 +56,12 @@ export function Formatting({ message }: { message: DisplayMessage }) {
           target="_blank" // Opens the link in a new tab
           rel="noopener noreferrer" // Adds security for external links
           className="text-blue-500 hover:underline"
-          style={{ zIndex: 10, position: 'relative' }} // Ensure it's clickable
+          style={{
+            zIndex: 10,
+            position: 'relative',
+            pointerEvents: 'auto', // Ensures links can be clicked
+            cursor: 'pointer' // Indicates interactivity
+      }}
         >
           {children}
         </a>
