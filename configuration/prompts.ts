@@ -110,7 +110,7 @@ Tone: **${AI_TONE}** – **confident, engaging, and mentor-like**.
 }
 
 // 🟢 **Generating Hypothetical Context**
-export function HYDE_PROMPT() {
+export function HYDE_PROMPT(chat: Chat) {
   const mostRecentMessages = chat.messages.slice(-3);
 
   return `
