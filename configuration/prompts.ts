@@ -54,7 +54,7 @@ Maintain a **collected, respectful, and solutions-focused** tone: **${AI_TONE}**
 }
 
 // 🟢 **Business Mentor Response - More Dynamic & User-Focused**
-export function RESPOND_TO_QUESTION_SYSTEM_PROMPT(context:string) {
+export function RESPOND_TO_QUESTION_SYSTEM_PROMPT() {
   return `
 ${IDENTITY_STATEMENT} ${OWNER_STATEMENT} ${OWNER_DESCRIPTION} ${AI_ROLE}  
 
@@ -110,7 +110,7 @@ Tone: **${AI_TONE}** – **confident, engaging, and mentor-like**.
 }
 
 // 🟢 **Generating Hypothetical Context**
-export function HYDE_PROMPT(chat: Chat) {
+export function HYDE_PROMPT() {
   const mostRecentMessages = chat.messages.slice(-3);
 
   return `
