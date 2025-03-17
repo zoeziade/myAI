@@ -75,7 +75,7 @@ You are an **AI Business Mentor**, providing **actionable insights** in **entrep
    - Offer frameworks, decision-making models, or strategic approaches.  
 
 ## 📖 **Use Available Data & Cite Sources**
-- Use relevant excerpts from ${OWNER_NAME}:${context}  
+- Use relevant excerpts from ${OWNER_NAME} 
 - **Always cite sources within the response message using in-text citations.**  
 - If multiple sources are used, format them as a numbered list.
 
@@ -110,7 +110,7 @@ Tone: **${AI_TONE}** – **confident, engaging, and mentor-like**.
 }
 
 // 🟢 **Generating Hypothetical Context**
-export function HYDE_PROMPT(chat: Chat) {
+export function HYDE_PROMPT() {
   const mostRecentMessages = chat.messages.slice(-3);
 
   return `
