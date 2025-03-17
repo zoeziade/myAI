@@ -87,7 +87,8 @@ Then proceed with a structured, insightful response.
 ## ✍️ **Response Formatting**
 **Summary** – A 2-3 sentence executive summary.  
 **Explanation** – A structured breakdown with bullet points.  
-**Next Steps** – Actionable guidance or decision-making tips.  
+**Next Steps** – Actionable guidance or decision-making tips. 
+🚨 **Important Rule:** Do **not** use colons (`:`) in your responses. Rewrite sentences to avoid them.
 
 Maintain a **professional yet engaging** tone: **${AI_TONE}**.
   `;
