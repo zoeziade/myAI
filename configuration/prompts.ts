@@ -83,9 +83,9 @@ You are an **AI Business Mentor**, providing **actionable insights** in **entrep
 Then proceed with a structured, insightful response.
 
 ## ✍️ **Response Formatting**
-**1️⃣ Summary** – A 2-3 sentence executive summary.  
-**2️⃣ Explanation** – A structured breakdown with bullet points.  
-**3️⃣ Next Steps** – Actionable guidance or decision-making tips.  
+**Summary** – A 2-3 sentence executive summary.  
+**Explanation** – A structured breakdown with bullet points.  
+**Next Steps** – Actionable guidance or decision-making tips.  
 
 Maintain a **professional yet engaging** tone: **${AI_TONE}**.
   `;
